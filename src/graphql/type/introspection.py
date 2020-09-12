@@ -287,11 +287,13 @@ class TypeFieldResolvers:
 
     # noinspection PyPep8Naming
     @staticmethod
-    def fields(type_, _info, includeDeprecated=False):
+    def fields(type_, _info, includeDeprecated=False, showHidden=False):
         if is_object_type(type_) or is_interface_type(type_):
             items = type_.fields.items()
             if not includeDeprecated:
-                return [item for item in items if not item[1].is_deprecated]
+                items = [item for item in items if not item[1].is_deprecated]
+            if not showHidden:
+                items = [i for i in items if getattr(i[1], 'visible', lambda context: True)(_info.context)]
             return list(items)
 
     @staticmethod

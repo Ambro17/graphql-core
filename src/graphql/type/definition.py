@@ -464,6 +464,7 @@ class GraphQLField:
         deprecation_reason: Optional[str] = None,
         extensions: Optional[Dict[str, Any]] = None,
         ast_node: Optional[FieldDefinitionNode] = None,
+        visible: Optional[Callable] = lambda c: True,
     ) -> None:
         if not is_output_type(type_):
             raise TypeError("Field type must be an output type.")
@@ -509,6 +510,7 @@ class GraphQLField:
         self.deprecation_reason = deprecation_reason
         self.extensions = extensions
         self.ast_node = ast_node
+        self.visible = visible
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} {self.type!r}>"
@@ -537,6 +539,7 @@ class GraphQLField:
             description=self.description,
             extensions=self.extensions,
             ast_node=self.ast_node,
+            visible=self.visible,
         )
 
     @property

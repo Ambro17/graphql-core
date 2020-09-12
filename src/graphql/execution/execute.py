@@ -597,6 +597,10 @@ class ExecutionContext:
             resolve_fn = self.middleware_manager.get_field_resolver(resolve_fn)
 
         info = self.build_resolve_info(field_def, field_nodes, parent_type, path)
+        if not field_def.visible(info.context):
+            # This way we return null on the field, which reveals it exists
+            # We can avoid that with a new validation rule
+            raise Exception('Field not visible!')
 
         # Get the resolve function, regardless of if its result is normal or abrupt
         # (error).
@@ -627,7 +631,6 @@ class ExecutionContext:
             # Build a dictionary of arguments from the field.arguments AST, using the
             # variables scope to fulfill any variable references.
             args = get_argument_values(field_def, field_nodes[0], self.variable_values)
-
             # Note that contrary to the JavaScript implementation, we pass the context
             # value as part of the resolve info.
             result = resolve_fn(source, info, **args)

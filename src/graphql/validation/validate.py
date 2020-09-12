@@ -78,6 +78,9 @@ def validate(
 
     # Visit the whole document with each instance of all provided rules.
     try:
+        # We could add a visit rule that rejects if any field in the query is not `visible()`
+        # But context here is not the same as the `GraphQLResolveInfo.context` so we must
+        # Find something smart to do
         visit(document_ast, TypeInfoVisitor(type_info, ParallelVisitor(visitors)))
     except ValidationAbortedError:
         pass

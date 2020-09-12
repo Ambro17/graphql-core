@@ -111,7 +111,7 @@ specified_rules: FrozenList[Type[ASTValidationRule]] = FrozenList(
         FragmentsOnCompositeTypesRule,
         VariablesAreInputTypesRule,
         ScalarLeafsRule,
-        FieldsOnCorrectTypeRule,
+        FieldsOnCorrectTypeRule,  # Perhaps modify this rule based on the field.visible()
         UniqueFragmentNamesRule,
         KnownFragmentNamesRule,
         NoUnusedFragmentsRule,
