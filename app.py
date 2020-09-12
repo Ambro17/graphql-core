@@ -10,7 +10,6 @@ from graphql import (
 
 
 def resolve_it(*args):
-    assert 1
     return 'Hidden'
 
 
@@ -29,6 +28,6 @@ schema = GraphQLSchema(
 )
 
 print(print_schema(schema))  # Bypasses field visibility as it doesn't have a context info
-
-print(graphql_sync(schema, '{hidden2}'))
+print(graphql_sync(schema, '{hidden}'))
+print(graphql_sync(schema, '{ inexistent_field}'))  # We should show this error when fields are invisible
 print(graphql_sync(schema, '{ __schema {types {name fields {name}} } }'))
